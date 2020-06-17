@@ -14,15 +14,24 @@ app.listen(3000, () => {
 })
 
 app.get("/", (req, res) => {
-    res.render("list", { title: day.getDay(),  items: mainItems });
+    res.render("list", { heading: day.getDay(),  items: mainItems });
+})
+
+app.get("/work", (req, res) => {
+    res.render("list", { heading: "Work",  items: workItems });
 })
 
 app.get("/about", (req, res) => {
-    res.render("about", { title: "This is the about page" });
+    res.render("about");
 })
 
 app.post("/", (req, res) => {
     let newItem = req.body.newItem;
-    mainItems.push(newItem);
-    res.redirect("/");
+    if(req.body.list === "Work") {
+        workItems.push(newItem);
+        res.redirect("/work");
+    } else {
+        mainItems.push(newItem);
+        res.redirect("/");
+    }
 })
